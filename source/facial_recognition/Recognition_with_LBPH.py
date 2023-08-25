@@ -25,3 +25,5 @@ def get_image_data():
   return np.array(ids), faces
 
 ids, faces = get_image_data()
+
+# Treinamento do classificador LBPH
