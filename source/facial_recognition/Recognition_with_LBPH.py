@@ -27,3 +27,26 @@ def get_image_data():
 ids, faces = get_image_data()
 
 # Treinamento do classificador LBPH
+lbph = cv2.face_LBPHFaceRecognizer.create()
+lbph.train(faces, ids)
+lbph.save('lbph_classifier.yml')
+
+# Reconhecimento de faces
+
+lbph_face = cv2.face_LBPHFaceRecognizer.create()
+lbph_face.read('lbph_classifier.yml')
+
+image_teste = 'yalefaces/test/subject10.sad.gif'
+image = Image.open(image_teste).convert('L')
+image_np = np.array(image, 'uint8')
+
+prevision = lbph_face.predict(image_np)
+
+expected_output = int(os.path.split(image_teste)[1].split('.')[0].replace('subject',''))
+
+cv2.putText(image_np, 'Pred:' + str(prevision[0]), (10,30), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,255,0))
+cv2.putText(image_np, 'Exp:' + str(expected_output), (10,50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0,255,0))
+cv2.imshow('reconhecimento facial', image_np)
+cv2.waitKey(0)
+
+
