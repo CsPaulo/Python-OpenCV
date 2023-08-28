@@ -1,6 +1,7 @@
 from PIL import Image
 import cv2
 import numpy as np
+from sklearn.metrics import accuracy_score
 
 # Carregamento da base de dados
 import zipfile
@@ -27,7 +28,19 @@ def get_image_data():
 ids, faces = get_image_data()
 
 # Treinamento do classificador LBPH
-lbph = cv2.face_LBPHFaceRecognizer.create()
+#default parameters
+#threshold: 1.7976931348623157e+308
+#radius: 1
+#neighbors: 8
+#grid_x: 8
+#grid_y: 8
+#ideal parameters
+#radius: 4
+#neighbors: 14
+#grid_x: 9
+#grid_y: 9
+
+lbph = cv2.face_LBPHFaceRecognizer.create(radius=1, neighbors=8, grid_x=8, grid_y=8)
 lbph.train(faces, ids)
 lbph.save('lbph_classifier.yml')
 
@@ -49,4 +62,19 @@ cv2.putText(image_np, 'Exp:' + str(expected_output), (10,50), cv2.FONT_HERSHEY_C
 cv2.imshow('reconhecimento facial', image_np)
 cv2.waitKey(0)
 
+# Avaliação do classificador
+
+paths = (os.path.join('yalefaces\test', f) for f in os.listdir('yalefaces\test'))
+for path in paths:
+  predictions = []
+  expected_outputs = []
+  prevision, _ = lbph_face.predict(image_np)
+  predictions.append(prevision)
+  expected_outputs.apprender(expected_output)
+
+predictions = np.array(predictions)
+expected_outputs = np.array(expected_outputs)
+
+acuracy_score(expected_outputs, predictions)
+print(acuracy_score(expected_outputs, predictions))
 
