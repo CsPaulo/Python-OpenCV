@@ -13,7 +13,7 @@ video_capture = cv2.VideoCapture(0)
 while True:
     ok, frame = video_capture.read()
     image_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    detections = face_detector.detectMultiScale(image_gray, scaleFactor=1.5, minSize=(150,150))
+    detections = face_detector.detectMultiScale(image_gray, scaleFactor=1.5, maxSize=(190,190))
     for (x, y , w, h) in detections:
         image_face = cv2.resize(image_gray[y:y + w, x:x + h],(width, height)) 
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
