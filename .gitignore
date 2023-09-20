@@ -4,9 +4,11 @@ Datasets/fer_images.zip
 Datasets/fer2013_2_classes.zip
 homer_bart_1/
 
-
+network1.json
+weights1.keras
 
 lbph_classifier.yml
 jones_gabriel/
 
 Dataset_leafs_resize/
+
